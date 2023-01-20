@@ -319,7 +319,6 @@ class _LoginPartState extends State<LoginPart> {
             user.month_second.toString() +
             "" +
             user.today_medi_ok.toString());
-
         Navigator.pop(context);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
