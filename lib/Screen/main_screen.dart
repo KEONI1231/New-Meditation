@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medi/Screen/setting_screen.dart';
 
 import '../Constant/color.dart';
 import '../Constant/user.dart';
@@ -20,14 +21,15 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           backgroundColor: BRIGHT_COLOR,
           body: TabBarView(
             children: [
               HomeScreen(user: widget.user),
               TimerWidget(user: widget.user),
-              MeditaionScreen(user: widget.user) //바꿔
+              MeditaionScreen(user: widget.user), //바꿔
+              SettingScreen(user: widget.user),
             ],
           ),
           extendBodyBehindAppBar: true, // add this line
@@ -71,6 +73,13 @@ class _MainScreenState extends State<MainScreen> {
                       size: 16,
                     ),
                     text: '명상 영상',
+                  ),
+                  Tab(
+                    icon: Icon(
+                      Icons.settings_outlined,
+                      size: 16,
+                    ),
+                    text: '설정',
                   ),
                 ],
               ),
