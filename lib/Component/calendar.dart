@@ -96,20 +96,7 @@ class _CalendarState extends State<Calendar> {
               }),
 
 
-              eventLoader: (DateTime _day) {
-                if (Year.contains(_day.year.toString()) &&
-                    Month.contains(_day.month.toString().padLeft(2,'0')) &&
-                    Day.contains(_day.day.toString().padLeft(2,'0'))) {
-                  return ['hi'];
-                } else {
-                 /* print(Year.contains(_day.year.toString()) &&
-                      Month.contains(_day.month.toString()) &&
-                      Day.contains(_day.day.toString()));*/
-                  print(Month[0]);
-                  print(_day.month.toString());
-                  return [];
-                }
-              },
+
               locale: 'ko_KR',
               focusedDay: focusedDayVal,
               firstDay: DateTime(1800),
