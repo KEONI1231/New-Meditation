@@ -94,7 +94,7 @@ class _LoginPartState extends State<LoginPart> {
     return Column(
       children: [
         CustomTextField(
-            textInputType: TextInputType.text,
+            textInputType: TextInputType.emailAddress,
             Controller: _emailTextController,
             label: '이메일을 입력해 주세요.'),
         SizedBox(height: 16.0),

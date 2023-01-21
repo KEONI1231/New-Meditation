@@ -23,7 +23,8 @@ class CustomButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0), //버튼모양 둥글게.
           ),
-          minimumSize: const Size(250, 40),
+          minimumSize: text == '회원탈퇴' || text == '취소' ? const Size(200,40) :const Size(250, 40),
+          //
         ),
 
         child: Text(text,style: ts.copyWith(color: Colors.black),),

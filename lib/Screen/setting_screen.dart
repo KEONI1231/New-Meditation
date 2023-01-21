@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medi/Screen/change_password.dart';
+import 'package:medi/Screen/send_mail_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Constant/color.dart';
 import '../Constant/data.dart';
 import '../Constant/user.dart';
+import 'delete_user_before_login_screen.dart';
 import 'login_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   loginUser user;
+
   SettingScreen({
     required this.user,
     Key? key,
@@ -35,29 +39,47 @@ class _SettingScreenState extends State<SettingScreen> {
       ],
     );
     final ts =
-        TextStyle(fontWeight: FontWeight.w900, color: TEXT_COLOR, fontSize: 18);
+        TextStyle(fontWeight: FontWeight.w800, color: TEXT_COLOR, fontSize: 18);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                SizedBox(height: 32),
-                Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: Text('설정',
-                        style: ts.copyWith(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 32,
-                            color: Colors.grey[700]))),
-                SizedBox(height: 16),
-                FirstContainer(
-                    ts: ts, ContainerDecoration: ContainerDecoration),
-                SizedBox(height: 40),
-                FirstContainer(ts: ts, ContainerDecoration: ContainerDecoration)
-              ],
-            ),
+          child: Column(
+            children: [
+              AppBar(
+                  title: Text('설정',
+                      style: ts.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24,
+                          color: BRIGHT_COLOR)),
+                  centerTitle: true,
+                  backgroundColor: PRIMARY_COLOR),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 32),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text('설정',
+                            style: ts.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.grey[700]))),
+                    SizedBox(height: 16),
+                    FirstContainer(
+                        user: widget.user,
+                        ts: ts,
+                        ContainerDecoration: ContainerDecoration),
+                    SizedBox(height: 40),
+                    SecondContainer(
+                        user: widget.user,
+                        ts: ts,
+                        ContainerDecoration: ContainerDecoration)
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -68,12 +90,17 @@ class _SettingScreenState extends State<SettingScreen> {
 class FirstContainer extends StatefulWidget {
   final TextStyle ts;
   final BoxDecoration ContainerDecoration;
+  final loginUser user;
+
   const FirstContainer(
-      {required this.ts, required this.ContainerDecoration, Key? key})
+      {required this.user,
+      required this.ts,
+      required this.ContainerDecoration,
+      Key? key})
       : super(key: key);
 
   @override
-  State<FirstContainer> createState() => _FirstContainerState();
+  _FirstContainerState createState() => _FirstContainerState();
 }
 
 class _FirstContainerState extends State<FirstContainer> {
@@ -89,15 +116,12 @@ class _FirstContainerState extends State<FirstContainer> {
           children: [
             const SizedBox(height: 24),
             GestureDetector(
-              onTap: () {},
-              child: Text(
-                '학교인증',
-                style: widget.ts,
-              ),
-            ),
-            const SizedBox(height: 24),
-            GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return ChangePassword(user: widget.user);
+                }));
+              },
               child: Text(
                 '비밀번호 변경',
                 style: widget.ts,
@@ -105,10 +129,26 @@ class _FirstContainerState extends State<FirstContainer> {
             ),
             const SizedBox(height: 24),
             GestureDetector(
-              onTap: () {},
-              child: Text(
-                '이메일 변경',
-                style: widget.ts,
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return SendMail(ContainerDecoration: widget.ContainerDecoration,user: widget.user);
+                }));
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '문의하기',
+                    style: widget.ts,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text('kimkeonhwi991231@gmail.com',
+                        style: widget.ts
+                            .copyWith(fontSize: 13, color: Colors.grey)),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 24),
@@ -118,6 +158,109 @@ class _FirstContainerState extends State<FirstContainer> {
               },
               child: Text(
                 '로그아웃',
+                style: widget.ts,
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future tryLogout(context, ts) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: BRIGHT_COLOR,
+          title: Text('알림', style: ts),
+          content: Text('로그아웃 하시겠습니까?', style: ts),
+          actions: [
+            TextButton(
+              onPressed: () {
+                try {
+                  sp.setString(userId, '!')!;
+                  sp.setString(userPassword, '!')!;
+                  sp.setBool(loginState, false)!;
+                } catch (e) {}
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        //페이지 스택 제거
+                        builder: (BuildContext context) => LoginScreen()),
+                    (route) => false);
+              },
+              child: Text('예', style: ts),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('아니요', style: ts),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class SecondContainer extends StatefulWidget {
+  final TextStyle ts;
+  final BoxDecoration ContainerDecoration;
+  final loginUser user;
+
+  const SecondContainer(
+      {required this.user,
+      required this.ts,
+      required this.ContainerDecoration,
+      Key? key})
+      : super(key: key);
+
+  @override
+  State<SecondContainer> createState() => _SecondContainerrState();
+}
+
+class _SecondContainerrState extends State<SecondContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.1,
+      decoration: widget.ContainerDecoration,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 16, 0, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '앱 버전',
+                  style: widget.ts,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Text(version,
+                      style:
+                          widget.ts.copyWith(fontSize: 13, color: Colors.grey)),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return DeleteAccount(user: widget.user);
+                }));
+              },
+              child: Text(
+                '회원 탈퇴',
                 style: widget.ts,
               ),
             ),
