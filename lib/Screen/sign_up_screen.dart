@@ -129,11 +129,11 @@ class _SignUpState extends State<SignUp> {
       });
       Navigator.pop(context);
       if (student_number == _studentNumberController.text) {
-        DialogShow(context, '중복된 닉네임이 존재합니다.');
+        DialogShow(context, '중복된 학번이 존재합니다.');
         _duplicationNickCheck = 0;
         _duplbtnnickchecker = 0;
       } else {
-        DialogShow(context, '사용가능한 닉네임입니다.');
+        DialogShow(context, '사용가능한 학번입니다.');
         _duplicationNickCheck = 1;
         _duplbtnnickchecker = 1;
       }

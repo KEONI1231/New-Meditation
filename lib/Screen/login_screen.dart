@@ -445,11 +445,11 @@ class BottomPart extends StatelessWidget {
               onPressed: onPressed_signup,
               child: Text('회원가입'),
             ),
-            Text("|"),
+            /*Text("|"),
             TextButton(
               onPressed: onPressed_findaccount,
               child: Text('아이디찾기'),
-            ),
+            ),*/
           ],
         ),
       ],
