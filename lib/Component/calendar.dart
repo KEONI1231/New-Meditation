@@ -27,76 +27,68 @@ class _CalendarState extends State<Calendar> {
   dynamic Year = List<String>.filled(0, '', growable: true);
   dynamic Month = List<String>.filled(0, '', growable: true);
   dynamic Day = List<String>.filled(0, '', growable: true);
-   List recordDate = List<String>.filled(0, '', growable: true);
+  List recordDate = List<String>.filled(0, '', growable: true);
   List castRecordDate = List<String>.filled(0, '', growable: true);
   late String data;
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     return StreamBuilder<QuerySnapshot>(
-        stream: firestore.collection("users").snapshots(),
+        stream: firestore.collection("users").where('email',isEqualTo :widget.user.email).snapshots(),
         builder: (context, snapshot) {
           //print(castRecordDate.runtimeType);
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator(color: TEXT_COLOR));
-          } else {
-            List recordDate =
-                List<String>.from(snapshot.data?.docs[0]['record_list'] ?? []);
-            // print(snapshot.data?.docs[0]['record_list']);
-            // print(recordDate.length);
-           // print(recordDate);
-           // print(recordDate[0].runtimeType);
-            if (recordDate.length != 1) {
-              for (int i = 0; i < recordDate.length; i++) {
-                if (!recordDate[i].contains('default')) {
-                  //print("asd" + recordDate[i].toString());
+          }
+          List recordDate =
+              List<String>.from(snapshot.data?.docs[0]['record_list'] ?? []);
+          // print(snapshot.data?.docs[0]['record_list']);
+          // print(recordDate.length);
+          // print(recordDate);
+          // print(recordDate[0].runtimeType);\
+          print("text${recordDate.length}");
+          if (recordDate.length != 1) {
+            for (int i = 0; i < recordDate.length; i++) {
+              if (!recordDate[i].contains('default')) {
+                //print("asd" + recordDate[i].toString());
 
-                  data = (recordDate[i].replaceAll(RegExp('[^0-9]'), ""));
-                  //castRecordDate[i].add(recordDate[i].replaceAll(RegExp('[^0-9]'), ""));
-                  print("sss"+data);
+                data = (recordDate[i].replaceAll(RegExp('[^0-9]'), ""));
+                //castRecordDate[i].add(recordDate[i].replaceAll(RegExp('[^0-9]'), ""));
+                print("sss" + data);
 
-                  Year.add(data.substring(0, 4));
+                Year.add(data.substring(0, 4));
 
-                  Month.add(data.substring(4, 6));
-                  Day.add(data.substring(6, 8));
-                  //  print(int.parse(Year[i]));
-                  // print(int.parse(Month[i]));
-                  // print(int.parse(day[i]));
-                }
-                //print();
-                // print('길이' + recordDate.length.toString());
-
+                Month.add(data.substring(4, 6));
+                Day.add(data.substring(6, 8));
+                //  print(int.parse(Year[i]));
+                // print(int.parse(Month[i]));
+                // print(int.parse(day[i]));
               }
+              //print();
+              // print('길이' + recordDate.length.toString());
+
             }
           }
 
           return Padding(
             padding: const EdgeInsets.all(32.0),
             child: TableCalendar(
+              calendarBuilders:
+                  CalendarBuilders(markerBuilder: (context, _day, event) {
+                //DateTime _date = DateTime.utc(date.year, date.month, date.day);
 
-              calendarBuilders: CalendarBuilders(
-
-                  markerBuilder: (context, _day, event) {
-
-                    //DateTime _date = DateTime.utc(date.year, date.month, date.day);
-
-                    //print("asd" + _events[DateTime.utc(date.year, date.month, date.day)].toString());
-                    if (Year.contains(_day.year.toString()) &&
-                    Month.contains(_day.month.toString().padLeft(2,'0')) &&
-                    Day.contains(_day.day.toString().padLeft(2,'0'))) {
-                      return
-                        Container(
-                          width: 35,
-                          decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.2),
-                              shape: BoxShape.circle),
-                        );
-                    }
-
+                //print("asd" + _events[DateTime.utc(date.year, date.month, date.day)].toString());
+                if (Year.contains(_day.year.toString()) &&
+                    Month.contains(_day.month.toString().padLeft(2, '0')) &&
+                    Day.contains(_day.day.toString().padLeft(2, '0'))) {
+                  return Container(
+                    width: 35,
+                    decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.2),
+                        shape: BoxShape.circle),
+                  );
+                }
               }),
-
-
-
               locale: 'ko_KR',
               focusedDay: focusedDayVal,
               firstDay: DateTime(1800),
@@ -123,8 +115,6 @@ class _CalendarState extends State<Calendar> {
           );
         });
   }
-
-
 }
 
 class Event {
