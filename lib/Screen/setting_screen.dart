@@ -71,7 +71,15 @@ class _SettingScreenState extends State<SettingScreen> {
                         user: widget.user,
                         ts: ts,
                         ContainerDecoration: ContainerDecoration),
-                    SizedBox(height: 40),
+                    SizedBox(height: 56),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text('기타',
+                            style: ts.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.grey[700]))),
+                    SizedBox(height: 16),
                     SecondContainer(
                         user: widget.user,
                         ts: ts,

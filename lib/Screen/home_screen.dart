@@ -54,12 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         style: ts,
                       ),
                       GestureDetector(
-                        onTap: () {
+                        onTap: widget.user.today_medi_ok == 0 ? () {
                           Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           TimerWidget(user: widget.user)))
+                              .then((value) {
+                            setState(() {});
+                          });
+                        } : () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      TodayRecordDetail(user: widget.user)))
                               .then((value) {
                             setState(() {});
                           });

@@ -8,11 +8,8 @@ import 'Screen/intro_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await initializeDateFormatting();
-
   await Firebase.initializeApp();
-
   runApp(
     MaterialApp(
       home: MyApp(), // 시작 부분.
