@@ -22,8 +22,6 @@ Future Record(context, loginUser user, int hour, int minute, int second) async {
             const SizedBox(height: 16),
             Text('명상하며 느낀점을 기록해보세요!', style: ts),
             const SizedBox(height: 16),
-            Text('(미기록시 지금 한 영상 시간은 초기화됩니다.)',
-                style: ts.copyWith(fontSize: 12)),
             const SizedBox(height: 16),
           ],
         ),

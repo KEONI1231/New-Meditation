@@ -92,7 +92,8 @@ class _SendMailState extends State<SendMail> {
                         ],
                       ),
                     ),
-                    CustomButton(text: '완료', onPressed: onSendEmailBtn)
+                    CustomButton(text: '완료', onPressed: onSendEmailBtn),
+                    SizedBox(height : 48)
                   ],
                 ),
               ],
@@ -137,6 +138,7 @@ class _SendMailState extends State<SendMail> {
       await FlutterEmailSender.send(email);
     } catch (error) {
       DialogShow(context,"기본 메일 앱을 사용할 수 없기 때문에 앱에서 바로 문의를 전송하기 어려운 상황입니다.\n\n아래 이메일로 연락주시면 친절하게 답변해드릴게요 :)\n\nonionfamily.official@gmail.com");
+      print(error);
     }
   }
 }

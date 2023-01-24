@@ -6,6 +6,7 @@ import '../Constant/user.dart';
 
 class RecentRecordList extends StatefulWidget {
   loginUser user;
+
   RecentRecordList({
     required this.user,
     Key? key,
@@ -25,6 +26,7 @@ class _RecentRecordListState extends State<RecentRecordList> {
       '월 ' +
       DateTime.now().day.toString().padLeft(2, '0') +
       '일';
+
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -32,6 +34,18 @@ class _RecentRecordListState extends State<RecentRecordList> {
       body: SafeArea(
         child: Column(
           children: [
+            AppBar(
+              title: Text('최근 명상 기록',
+                  style: ts.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      color: BRIGHT_COLOR)),
+              backgroundColor: PRIMARY_COLOR,
+              centerTitle: true,
+            ),
+            SizedBox(
+              height: 16,
+            ),
             StreamBuilder<QuerySnapshot>(
               stream: firestore
                   .collection("users")

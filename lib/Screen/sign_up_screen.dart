@@ -248,7 +248,6 @@ class _SignUpState extends State<SignUp> {
           _weekOfMonth =
               weekOfMonthForSimple(date) + (_isFirstDayBeforeThursday ? 0 : -1);
         }
-
         // 다음달 첫번째 날짜의 주차와 동일.
         else {
           // 1주차.

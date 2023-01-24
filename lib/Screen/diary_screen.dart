@@ -5,6 +5,7 @@ import '../Component/alert_dialog.dart';
 import '../Component/circular_progress_indicator_dialog.dart';
 import '../Component/custom_appbar.dart';
 import '../Component/custom_button.dart';
+import '../Constant/data.dart';
 import '../Constant/user.dart';
 
 class DiaryScreen extends StatefulWidget {
@@ -12,6 +13,7 @@ class DiaryScreen extends StatefulWidget {
   final int hour;
   final int minute;
   final int second;
+
   DiaryScreen({
     required this.user,
     required this.hour,
@@ -25,7 +27,6 @@ class DiaryScreen extends StatefulWidget {
 }
 
 class _DiaryScreenState extends State<DiaryScreen> {
-
   final TextEditingController _emotionTextController = TextEditingController();
   final TextEditingController _contentTextController = TextEditingController();
   final String date = DateTime.now().year.toString() +
@@ -34,6 +35,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       '월 ' +
       DateTime.now().day.toString().padLeft(2, '0').toString() +
       '일';
+
   @override
   Widget build(BuildContext context) {
     print(widget.hour);
@@ -65,9 +67,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   void try_record() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentSnapshot DOC = await firestore.collection("users").doc(widget.user.email).get();
-    final List recordDate =
-      List<String>.from(DOC['record_list'] ?? []);
+    DocumentSnapshot DOC =
+        await firestore.collection("users").doc(widget.user.email).get();
+    final List recordDate = List<String>.from(DOC['record_list'] ?? []);
     recordDate.add(date);
     CustomCircular(context, '기록 중...');
     await firestore
@@ -83,62 +85,60 @@ class _DiaryScreenState extends State<DiaryScreen> {
         "content": _contentTextController.text,
         "emotion": _emotionTextController.text,
         "createdTime": DateTime.now(),
-        "hour" : widget.user.today_hour,
-        "minute" : widget.user.today_minute,
-        "second" : widget.user.today_second
+        "hour": widget.user.today_hour,
+        "minute": widget.user.today_minute,
+        "second": widget.user.today_second
       },
     );
     // 82 ~ 93 오늘 명상 시간 업데이트
-    if(widget.user.today_second >= 60) {
+    if (widget.user.today_second >= 60) {
       widget.user.today_second -= 60;
-      widget.user.today_minute+=1;
+      widget.user.today_minute += 1;
     }
-    if(widget.user.today_minute >= 60) {
+    if (widget.user.today_minute >= 60) {
       widget.user.today_minute -= 60;
-      widget.user.today_minute+=1;
+      widget.user.today_minute += 1;
     }
     // 94 ~ 105 주간 명상 시간 업데이트
 
-    if(widget.user.week_second >= 60) {
+    if (widget.user.week_second >= 60) {
       widget.user.week_second -= 60;
-      widget.user.week_minute+=1;
+      widget.user.week_minute += 1;
     }
-    if(widget.user.week_minute >= 60) {
+    if (widget.user.week_minute >= 60) {
       widget.user.week_minute -= 60;
-      widget.user.week_hour+=1;
+      widget.user.week_hour += 1;
     }
 
-    if(widget.user.month_second >= 60) {
+    if (widget.user.month_second >= 60) {
       widget.user.month_second -= 60;
-      widget.user.month_minute+=1;
+      widget.user.month_minute += 1;
     }
-    if(widget.user.month_minute >= 60) {
+    if (widget.user.month_minute >= 60) {
       widget.user.month_minute -= 60;
-      widget.user.month_hour+=1;
+      widget.user.month_hour += 1;
     }
     await firestore.collection("users").doc(widget.user.email).update({
       'total_medi_ok': FieldValue.increment(1),
       'today_medi_ok': FieldValue.increment(1),
-      'today_second' : widget.user.today_second,
-      'today_minute' : widget.user.today_minute,
-      'today_hour' : widget.user.today_hour,
-      'week_second' : widget.user.week_second,
-      'week_minute' : widget.user.week_minute,
-      'week_hour' : widget.user.week_hour,
-      'month_second' : widget.user.month_second,
-      'month_minute' : widget.user.month_minute,
-      'month_hour' : widget.user.month_hour,
-      'last_post_time' : date,
-      'record_list' :recordDate
+      'today_second': widget.user.today_second,
+      'today_minute': widget.user.today_minute,
+      'today_hour': widget.user.today_hour,
+      'week_second': widget.user.week_second,
+      'week_minute': widget.user.week_minute,
+      'week_hour': widget.user.week_hour,
+      'month_second': widget.user.month_second,
+      'month_minute': widget.user.month_minute,
+      'month_hour': widget.user.month_hour,
+      'last_post_time': date,
+      'record_list': recordDate
     });
     widget.user.total_medi_ok += 1;
     widget.user.today_medi_ok += 1;
     Navigator.pop(context);
     Navigator.pop(context);
     DialogShow(context, '기록 완료.');
-
   }
-
 }
 
 class DiaryCard extends StatefulWidget {
@@ -166,10 +166,13 @@ class _DiaryCardState extends State<DiaryCard> {
 
   @override
   Widget build(BuildContext context) {
+    today_emotion = widget.emotionTextController.text;
+    today_content = widget.contentTextController.text;
+
     return Column(
       children: [
         Container(
-          height: 463,
+          height: 640,
           width: 347,
           child: Card(
             color: Color(0xffF2F2F0),
@@ -185,18 +188,28 @@ class _DiaryCardState extends State<DiaryCard> {
                   child: Text(
                     date,
                     style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[700],
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Icon(
+                  Icons.spa,
+                  size: 128,
+                  color: Colors.grey[800],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: SizedBox(
                     width: 250,
-                    height: 40,
+                    height: 60,
                     child: TextFormField(
                       controller: widget.emotionTextController,
+                      maxLines: null,
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         filled: true,
@@ -210,16 +223,56 @@ class _DiaryCardState extends State<DiaryCard> {
                           ),
                         ),
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 16,
+                ),
                 Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 320,
+                    child: TextFormField(
+                      expands: true,
+                      controller: widget.contentTextController,
+                      keyboardType: TextInputType.multiline,
+                      maxLines: null,
+                      validator: (String? val) {
+                        if (val == null || val.isEmpty) {
+                          return '해당 필드는 필수항복입니다.';
+                        }
+                        return null;
+                      },
+                      decoration: const InputDecoration(
+                        fillColor: Colors.white,
+                        filled: true,
+                        hintText: '오늘의 명상을 기록하세요',
+                        hintStyle: TextStyle(
+                          color: Color(0xffBFBFBD),
+                        ),
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8.0),
+                          ),
+                        ),
+                        //contentPadding: EdgeInsets.symmetric(vertical: 150),
+                      ),
+                      // textAlign: TextAlign.center,
+
+                      //  decoration: _decoration,
+                    ),
+                  ),
+                ),
+                /* Padding(
                   padding: const EdgeInsets.only(top: 10.0),
                   child: SizedBox(
                     width: 317,
                     child: TextFormField(
+                      maxLines: null,
+                     // expands: true,
                       controller: widget.contentTextController,
+                      keyboardType: TextInputType.multiline,
                       decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
@@ -236,7 +289,7 @@ class _DiaryCardState extends State<DiaryCard> {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                ),
+                ),*/
               ],
             ),
           ),
