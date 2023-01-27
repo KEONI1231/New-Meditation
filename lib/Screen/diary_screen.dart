@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -69,8 +71,14 @@ class _DiaryScreenState extends State<DiaryScreen> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentSnapshot DOC =
         await firestore.collection("users").doc(widget.user.email).get();
-    final List recordDate = List<String>.from(DOC['record_list'] ?? []);
+    final List<String> recordDate = List<String>.from(DOC['record_list'] ?? []);
+    dynamic recordDateToSet;
     recordDate.add(date);
+    print("===== 변경전 데이타 =====");
+    print(recordDate);
+    recordDateToSet = recordDate.toSet();
+    print("===== 변경후 데이타 =====");
+    print(recordDateToSet);
     CustomCircular(context, '기록 중...');
     await firestore
         .collection("users")
@@ -131,7 +139,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       'month_minute': widget.user.month_minute,
       'month_hour': widget.user.month_hour,
       'last_post_time': date,
-      'record_list': recordDate
+      'record_list': recordDateToSet
     });
     widget.user.total_medi_ok += 1;
     widget.user.today_medi_ok += 1;
@@ -259,7 +267,6 @@ class _DiaryCardState extends State<DiaryCard> {
                         //contentPadding: EdgeInsets.symmetric(vertical: 150),
                       ),
                       // textAlign: TextAlign.center,
-
                       //  decoration: _decoration,
                     ),
                   ),

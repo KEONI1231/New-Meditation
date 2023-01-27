@@ -3,12 +3,15 @@ import 'package:flutter/services.dart';
 
 class CustomTextFieldSignUp extends StatelessWidget {
   final String label;
+
   //'비밀번호 입력' 필드와 '비밀번호 확인'필드의 값을 비교하여 일치한지 아닌지를 판단하기 위한변수
   //다른 텍스트필드엔 필요한 변수가 아니기 때문에 null값이 허용되도록 ?를 사용함.
   final TextEditingController? passwordChecker;
   final TextEditingController Controller;
+
   //각 텍스트 필드들의 조건을 확인하기 위한 변수. 이 변수를 이용해서 validator에 의한 에러메시지를 출력해주는 판단 지표역할.
   final TextInputType textInputType;
+
   const CustomTextFieldSignUp({
     this.passwordChecker,
     required this.textInputType,
@@ -55,6 +58,17 @@ class CustomTextFieldSignUp extends StatelessWidget {
             return null;
           }
         }
+        if (textInputType == TextInputType.visiblePassword) {
+          bool regExp = RegExp(
+              r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+          )
+              .hasMatch(val);
+          if (regExp == false) {
+            return '특수문자, 대소문자, 숫자 포함 8자 이상 15자 이내로 입력하세요.';
+          } else {
+            return null;
+          }
+        }
         /* 텍스트인풋 타입이 visiblePassword일때 signup_screen.dart에서
           passwordChecker: _pwTextController.text, 이 문장을 사용하였음.
           이 파일 8번째 줄에 final String? passwordChecker; 라는 문장이 있는데
@@ -66,6 +80,7 @@ class CustomTextFieldSignUp extends StatelessWidget {
             return '비밀번호가 일치하지 않습니다.';
           }
         }
+
         if (textInputType == TextInputType.phone) {
           bool phoneNumberValid =
               //전화번호 형식을 조사하기 위한 정규식임.
