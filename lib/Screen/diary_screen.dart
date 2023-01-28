@@ -92,7 +92,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         "day": DateTime.now().day,
         "content": _contentTextController.text,
         "emotion": _emotionTextController.text,
-        "createdTime": DateTime.now(),
+        "createdTime": DateTime.now().toString(),
         "hour": widget.user.today_hour,
         "minute": widget.user.today_minute,
         "second": widget.user.today_second

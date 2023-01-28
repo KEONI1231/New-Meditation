@@ -179,11 +179,11 @@ class _SignUpState extends State<SignUp> {
       //계정 생성버튼을 눌렀을때 이상이 없으면 파이어베이스 클라우드스토어에 유저 정보를 추가한다.
       CustomCircular(context, '회원가입 진행중...');
       await firestore.collection('users').doc(_emailTextController.text).set({
-        'name': _nameTextController.text,
-        'email': _emailTextController.text,
-        'student_number': _studentNumberController.text,
+        'name': _nameTextController.text.replaceAll(RegExp('\\s'), ""),
+        'email': _emailTextController.text.replaceAll(RegExp('\\s'), ""),
+        'student_number': _studentNumberController.text.replaceAll(RegExp('\\s'), ""),
         'is_admin': 0,
-        'pw': _pwTextController.text,
+        'pw': _pwTextController.text.replaceAll(RegExp('\\s'), ""),
         'created_time': DateTime.now().toString(),
         'week_hour': 0,
         'week_minute': 0,

@@ -19,69 +19,76 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: DefaultTabController(
-        length: 4,
-        child: Scaffold(
-          backgroundColor: BRIGHT_COLOR,
-          body: TabBarView(
-            children: [
-              HomeScreen(user: widget.user),
-              TimerWidget(user: widget.user),
-              MeditaionScreen(user: widget.user), //바꿔
-              SettingScreen(user: widget.user),
-            ],
-          ),
-          extendBodyBehindAppBar: true, // add this line
-          bottomNavigationBar: Container(
-            color: BRIGHT_COLOR, //색상
-            child: Container(
-              height: 60,
-              padding: EdgeInsets.only(bottom: 10, top: 3),
-              child: const TabBar(
-                //tab 하단 indicator size -> .label = label의 길이
-                //tab 하단 indicator size -> .tab = tab의 길이
-                indicatorSize: TabBarIndicatorSize.label,
-                //tab 하단 indicator color
-                indicatorColor: Colors.black,
-                //tab 하단 indicator weight
-                indicatorWeight: 2,
-                //label color
-                labelColor: Colors.black,
-                //unselected label color
-                unselectedLabelColor: Colors.black38,
-                labelStyle: TextStyle(
-                  fontSize: 13,
-                ),
-                tabs: [
-                  Tab(
-                    icon: Icon(
-                      Icons.home,
-                      size: 16,
-                    ),
-                    text: '홈',
+    return WillPopScope(
+      onWillPop: (){
+        return Future(() => false);
+
+
+      },
+      child: SafeArea(
+        child: DefaultTabController(
+          length: 4,
+          child: Scaffold(
+            backgroundColor: BRIGHT_COLOR,
+            body: TabBarView(
+              children: [
+                HomeScreen(user: widget.user),
+                TimerWidget(user: widget.user),
+                MeditaionScreen(user: widget.user), //바꿔
+                SettingScreen(user: widget.user),
+              ],
+            ),
+            extendBodyBehindAppBar: true, // add this line
+            bottomNavigationBar: Container(
+              color: BRIGHT_COLOR, //색상
+              child: Container(
+                height: 60,
+                padding: EdgeInsets.only(bottom: 10, top: 3),
+                child: const TabBar(
+                  //tab 하단 indicator size -> .label = label의 길이
+                  //tab 하단 indicator size -> .tab = tab의 길이
+                  indicatorSize: TabBarIndicatorSize.label,
+                  //tab 하단 indicator color
+                  indicatorColor: Colors.black,
+                  //tab 하단 indicator weight
+                  indicatorWeight: 2,
+                  //label color
+                  labelColor: Colors.black,
+                  //unselected label color
+                  unselectedLabelColor: Colors.black38,
+                  labelStyle: TextStyle(
+                    fontSize: 13,
                   ),
-                  Tab(
+                  tabs: [
+                    Tab(
                       icon: Icon(
-                        Icons.timer_outlined,
+                        Icons.home,
                         size: 16,
                       ),
-                      text: '타이머'),
-                  Tab(
-                    icon: Icon(
-                      Icons.movie_outlined,
-                      size: 16,
+                      text: '홈',
                     ),
-                    text: '명상 영상',
-                  ),
-                  Tab(
-                    icon: Icon(
-                      Icons.settings_outlined,
-                      size: 16,
+                    Tab(
+                        icon: Icon(
+                          Icons.timer_outlined,
+                          size: 16,
+                        ),
+                        text: '타이머'),
+                    Tab(
+                      icon: Icon(
+                        Icons.movie_outlined,
+                        size: 16,
+                      ),
+                      text: '명상 영상',
                     ),
-                    text: '설정',
-                  ),
-                ],
+                    Tab(
+                      icon: Icon(
+                        Icons.settings_outlined,
+                        size: 16,
+                      ),
+                      text: '설정',
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
