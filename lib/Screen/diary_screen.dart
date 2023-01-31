@@ -76,10 +76,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
     recordDate.add(date);
     print("===== 변경전 데이타 =====");
     print(recordDate);
-    recordDateToSet = recordDate.toSet();
+    print(recordDate.runtimeType);
+    recordDateToSet = recordDate.toSet().toList();
     print("===== 변경후 데이타 =====");
     print(recordDateToSet);
+    print(recordDateToSet.runtimeType);
     CustomCircular(context, '기록 중...');
+    print(DateTime.now().toString().substring(0,11));
     await firestore
         .collection("users")
         .doc(widget.user.email)
@@ -92,7 +95,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         "day": DateTime.now().day,
         "content": _contentTextController.text,
         "emotion": _emotionTextController.text,
-        "createdTime": DateTime.now().toString(),
+        "createdTime": date,
         "hour": widget.user.today_hour,
         "minute": widget.user.today_minute,
         "second": widget.user.today_second
@@ -126,6 +129,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       widget.user.month_minute -= 60;
       widget.user.month_hour += 1;
     }
+    print('test');
     await firestore.collection("users").doc(widget.user.email).update({
       'total_medi_ok': FieldValue.increment(1),
       'today_medi_ok': FieldValue.increment(1),
