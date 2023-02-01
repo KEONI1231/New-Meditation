@@ -61,7 +61,7 @@ class _FriendScreenState extends State<FriendScreen> {
     DocumentSnapshot Doc;
     String emailChecker = '';
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    Doc = await firestore.collection('users').doc(widget.user.email).get();
+
 
     try {
       CustomCircular(context, '중복 확인 중...');
@@ -80,16 +80,18 @@ class _FriendScreenState extends State<FriendScreen> {
         print('test1');
 
         //여기에 추가
+        Doc = await firestore.collection('users').doc(emailTextConroller.text).get();
         final List<String> recordDate = List<String>.from(Doc['friend_list'] ?? []);
         dynamic recordDateToSet;
-        recordDate.add(emailTextConroller.text);
+        recordDate.add(widget.user.email);
         recordDateToSet = recordDate.toSet().toList();
-        firestore.collection('users').doc(widget.user.email).update({
+        firestore.collection('users').doc(emailTextConroller.text).update({
           'friend_list' : recordDateToSet
         });
         firestore.collection('users').doc(emailTextConroller.text).update({
 
         });
+        Navigator.pop(context);
         DialogShow(context, '친구 추가가 완료되었습니다.');
       } else {
         DialogShow(context, '해당 유저가 존재하지 않습니다.');

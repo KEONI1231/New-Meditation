@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:medi/Component/alert_dialog.dart';
 import 'package:medi/Component/custom_appbar_yellow.dart';
 import 'package:medi/Constant/user.dart';
+import 'package:medi/Screen/Friends/friend_recent_record.dart';
 
 import '../../Constant/color.dart';
 
@@ -78,13 +79,30 @@ class _FriendListScreenState extends State<FriendListScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Flexible(
-                                            child: RichText(
-                                              text: TextSpan(
-                                                  text:
-                                                      '${friendsData[index].toString()}',
-                                                  style: ts),
-                                              maxLines: null,
-                                              softWrap: true,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            FriendRecentRecord(
+                                                                targetEmail:
+                                                                    friendsData[
+                                                                        index],
+                                                                user: widget
+                                                                    .user))).then(
+                                                    (value) {
+                                                  setState(() {});
+                                                });
+                                              },
+                                              child: RichText(
+                                                text: TextSpan(
+                                                    text:
+                                                        '${friendsData[index].toString()}',
+                                                    style: ts),
+                                                maxLines: null,
+                                                softWrap: true,
+                                              ),
                                             ),
                                           ),
                                           SizedBox(
@@ -119,6 +137,8 @@ class _FriendListScreenState extends State<FriendListScreen> {
     );
   }
 
+
+
   Future tryLogout(context, ts, index) async {
     return await showDialog(
       context: context,
@@ -129,17 +149,22 @@ class _FriendListScreenState extends State<FriendListScreen> {
           content: Text('해당 공개대상을 삭제하시겠습니까?', style: ts),
           actions: [
             TextButton(
-              onPressed: () async{
+              onPressed: () async {
                 print(index);
                 DocumentSnapshot Doc;
-                Doc = await firestore.collection('users').doc(widget.user.email).get();
-                final List<String> recordDate = List<String>.from(Doc['friend_list'] ?? []);
+                Doc = await firestore
+                    .collection('users')
+                    .doc(widget.user.email)
+                    .get();
+                final List<String> recordDate =
+                    List<String>.from(Doc['friend_list'] ?? []);
                 dynamic recordDateToSet;
                 recordDate.removeAt(index);
                 recordDateToSet = recordDate.toSet().toList();
-                firestore.collection('users').doc(widget.user.email).update({
-                  'friend_list' : recordDateToSet
-                });
+                firestore
+                    .collection('users')
+                    .doc(widget.user.email)
+                    .update({'friend_list': recordDateToSet});
                 Navigator.pop(context);
                 DialogShow(context, '삭제 완료.');
               },

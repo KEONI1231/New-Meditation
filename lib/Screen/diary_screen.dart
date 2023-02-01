@@ -153,12 +153,12 @@ class DiaryCard extends StatefulWidget {
   bool friendOpen;
   final TextEditingController contentTextController;
 
-  DiaryCard(
-      {required this.friendOpen,
-      required this.contentTextController,
-      required this.emotionTextController,
-      Key? key})
-      : super(key: key);
+  DiaryCard({
+    required this.friendOpen,
+    required this.contentTextController,
+    required this.emotionTextController,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<DiaryCard> createState() => _DiaryCardState();
