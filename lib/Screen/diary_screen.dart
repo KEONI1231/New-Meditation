@@ -36,6 +36,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       DateTime.now().day.toString().padLeft(2, '0').toString() +
       '일';
   bool friendOpen = false;
+
   @override
   Widget build(BuildContext context) {
     print(widget.hour);
@@ -51,7 +52,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 height: 11,
               ),
               DiaryCard(
-                friendOpen:  friendOpen,
+                friendOpen: friendOpen,
                 emotionTextController: _emotionTextController,
                 contentTextController: _contentTextController,
               ),
@@ -92,7 +93,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
         "hour": widget.user.today_hour,
         "minute": widget.user.today_minute,
         "second": widget.user.today_second,
-        "friend_open" : friendOpen
+        "friend_open": friendOpen
       },
     );
     // 82 ~ 93 오늘 명상 시간 업데이트
@@ -153,9 +154,8 @@ class DiaryCard extends StatefulWidget {
   final TextEditingController contentTextController;
 
   DiaryCard(
-      {
-        required this.friendOpen,
-        required this.contentTextController,
+      {required this.friendOpen,
+      required this.contentTextController,
       required this.emotionTextController,
       Key? key})
       : super(key: key);
@@ -278,7 +278,7 @@ class _DiaryCardState extends State<DiaryCard> {
                       Text('공개 여부'),
                       Switch(
                         value: widget.friendOpen,
-                        onChanged: (value)  {
+                        onChanged: (value) {
                           setState(() {
                             widget.friendOpen = value;
                             print(widget.friendOpen);
