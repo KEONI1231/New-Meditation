@@ -373,7 +373,7 @@ class _ThirdContainerState extends State<ThirdContainer> {
                 }));
               },
               child: Text(
-                '친구 추가',
+                '공개 대상 추가',
                 style: widget.ts,
               ),
             ),
@@ -386,23 +386,11 @@ class _ThirdContainerState extends State<ThirdContainer> {
                 }));
               },
               child: Text(
-                '친구 목록',
+                '공개 대상 목록',
                 style: widget.ts,
               ),
             ),
-            const SizedBox(height: 24),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return DeleteAccount(user: widget.user);
-                }));
-              },
-              child: Text(
-                '친구 삭제',
-                style: widget.ts,
-              ),
-            ),
+
             const SizedBox(height: 24),
           ],
         ),
