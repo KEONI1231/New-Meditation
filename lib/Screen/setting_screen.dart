@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medi/Screen/Friends/add_friends_screen.dart';
+import 'package:medi/Screen/Friends/friend_list_screen.dart';
 import 'package:medi/Screen/change_password.dart';
 import 'package:medi/Screen/send_mail_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -83,7 +85,21 @@ class _SettingScreenState extends State<SettingScreen> {
                     SecondContainer(
                         user: widget.user,
                         ts: ts,
-                        ContainerDecoration: ContainerDecoration)
+                        ContainerDecoration: ContainerDecoration),
+                    SizedBox(height: 56),
+                    Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text('공개 대상',
+                            style: ts.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                                color: Colors.grey[700]))),
+                    SizedBox(height: 16),
+                    ThirdContainer(
+                        user: widget.user,
+                        ts: ts,
+                        ContainerDecoration: ContainerDecoration),
+                    SizedBox(height: 32,)
                   ],
                 ),
               ),
@@ -140,7 +156,9 @@ class _FirstContainerState extends State<FirstContainer> {
               onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return SendMail(ContainerDecoration: widget.ContainerDecoration,user: widget.user);
+                  return SendMail(
+                      ContainerDecoration: widget.ContainerDecoration,
+                      user: widget.user);
                 }));
               },
               child: Row(
@@ -269,6 +287,119 @@ class _SecondContainerrState extends State<SecondContainer> {
               },
               child: Text(
                 '회원 탈퇴',
+                style: widget.ts,
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future tryLogout(context, ts) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: BRIGHT_COLOR,
+          title: Text('알림', style: ts),
+          content: Text('로그아웃 하시겠습니까?', style: ts),
+          actions: [
+            TextButton(
+              onPressed: () {
+                try {
+                  sp.setString(userId, '!')!;
+                  sp.setString(userPassword, '!')!;
+                  sp.setBool(loginState, false)!;
+                } catch (e) {}
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        //페이지 스택 제거
+                        builder: (BuildContext context) => LoginScreen()),
+                    (route) => false);
+              },
+              child: Text('예', style: ts),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('아니요', style: ts),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class ThirdContainer extends StatefulWidget {
+  final TextStyle ts;
+  final BoxDecoration ContainerDecoration;
+  final loginUser user;
+
+  const ThirdContainer(
+      {required this.ContainerDecoration,
+      required this.user,
+      required this.ts,
+      Key? key})
+      : super(key: key);
+
+  @override
+  State<ThirdContainer> createState() => _ThirdContainerState();
+}
+
+class _ThirdContainerState extends State<ThirdContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.1,
+      decoration: widget.ContainerDecoration,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 16, 0, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return FriendScreen(user: widget.user,);
+                }));
+              },
+              child: Text(
+                '친구 추가',
+                style: widget.ts,
+              ),
+            ),
+            const SizedBox(height: 24),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return FriendListScreen(user: widget.user);
+                }));
+              },
+              child: Text(
+                '친구 목록',
+                style: widget.ts,
+              ),
+            ),
+            const SizedBox(height: 24),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (BuildContext context) {
+                  return DeleteAccount(user: widget.user);
+                }));
+              },
+              child: Text(
+                '친구 삭제',
                 style: widget.ts,
               ),
             ),

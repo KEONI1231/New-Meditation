@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +35,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       '월 ' +
       DateTime.now().day.toString().padLeft(2, '0').toString() +
       '일';
-
+  bool friendOpen = false;
   @override
   Widget build(BuildContext context) {
     print(widget.hour);
@@ -53,6 +51,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 height: 11,
               ),
               DiaryCard(
+                friendOpen:  friendOpen,
                 emotionTextController: _emotionTextController,
                 contentTextController: _contentTextController,
               ),
@@ -74,15 +73,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
     final List<String> recordDate = List<String>.from(DOC['record_list'] ?? []);
     dynamic recordDateToSet;
     recordDate.add(date);
-    print("===== 변경전 데이타 =====");
-    print(recordDate);
-    print(recordDate.runtimeType);
     recordDateToSet = recordDate.toSet().toList();
-    print("===== 변경후 데이타 =====");
-    print(recordDateToSet);
-    print(recordDateToSet.runtimeType);
     CustomCircular(context, '기록 중...');
-    print(DateTime.now().toString().substring(0,11));
+    print(DateTime.now().toString().substring(0, 11));
     await firestore
         .collection("users")
         .doc(widget.user.email)
@@ -98,7 +91,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
         "createdTime": date,
         "hour": widget.user.today_hour,
         "minute": widget.user.today_minute,
-        "second": widget.user.today_second
+        "second": widget.user.today_second,
+        "friend_open" : friendOpen
       },
     );
     // 82 ~ 93 오늘 명상 시간 업데이트
@@ -155,11 +149,13 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
 class DiaryCard extends StatefulWidget {
   final TextEditingController emotionTextController;
-
+  bool friendOpen;
   final TextEditingController contentTextController;
 
   DiaryCard(
-      {required this.contentTextController,
+      {
+        required this.friendOpen,
+        required this.contentTextController,
       required this.emotionTextController,
       Key? key})
       : super(key: key);
@@ -181,110 +177,83 @@ class _DiaryCardState extends State<DiaryCard> {
     today_emotion = widget.emotionTextController.text;
     today_content = widget.contentTextController.text;
 
-    return Column(
-      children: [
-        Container(
-          height: 640,
-          width: 347,
-          child: Card(
-            color: Color(0xffF2F2F0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.0)),
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                  ),
-                  child: Text(
-                    date,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey[700],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Container(
+            height: 680,
+            width: 347,
+            child: Card(
+              color: Color(0xffF2F2F0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(16.0)),
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 30,
+                    ),
+                    child: Text(
+                      date,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[700],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Icon(
-                  Icons.spa,
-                  size: 128,
-                  color: Colors.grey[800],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: SizedBox(
-                    width: 250,
-                    height: 60,
-                    child: TextFormField(
-                      controller: widget.emotionTextController,
-                      maxLines: null,
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: '오늘의 기분을 입력해주세요',
-                        hintStyle: TextStyle(
-                          color: Color(0xffBFBFBD),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8.0),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Icon(
+                    Icons.spa,
+                    size: 128,
+                    color: Colors.grey[800],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: SizedBox(
+                      width: 250,
+                      height: 60,
+                      child: TextFormField(
+                        controller: widget.emotionTextController,
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: '오늘의 기분을 입력해주세요',
+                          hintStyle: TextStyle(
+                            color: Color(0xffBFBFBD),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 320,
-                    child: TextFormField(
-                      expands: true,
-                      controller: widget.contentTextController,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      validator: (String? val) {
-                        if (val == null || val.isEmpty) {
-                          return '해당 필드는 필수항복입니다.';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: '오늘의 명상을 기록하세요',
-                        hintStyle: TextStyle(
-                          color: Color(0xffBFBFBD),
-                        ),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8.0),
-                          ),
-                        ),
-                        //contentPadding: EdgeInsets.symmetric(vertical: 150),
-                      ),
-                      // textAlign: TextAlign.center,
-                      //  decoration: _decoration,
-                    ),
+                  SizedBox(
+                    height: 16,
                   ),
-                ),
-                /* Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
-                  child: SizedBox(
-                    width: 317,
-                    child: TextFormField(
-                      maxLines: null,
-                     // expands: true,
-                      controller: widget.contentTextController,
-                      keyboardType: TextInputType.multiline,
-                      decoration: InputDecoration(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 320,
+                      child: TextFormField(
+                        expands: true,
+                        controller: widget.contentTextController,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        validator: (String? val) {
+                          if (val == null || val.isEmpty) {
+                            return '해당 필드는 필수항복입니다.';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
                           hintText: '오늘의 명상을 기록하세요',
@@ -296,16 +265,61 @@ class _DiaryCardState extends State<DiaryCard> {
                               Radius.circular(8.0),
                             ),
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 150)),
-                      textAlign: TextAlign.center,
+                          //contentPadding: EdgeInsets.symmetric(vertical: 150),
+                        ),
+                        // textAlign: TextAlign.center,
+                        //  decoration: _decoration,
+                      ),
                     ),
                   ),
-                ),*/
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text('공개 여부'),
+                      Switch(
+                        value: widget.friendOpen,
+                        onChanged: (value)  {
+                          setState(() {
+                            widget.friendOpen = value;
+                            print(widget.friendOpen);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+
+                  /* Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: SizedBox(
+                      width: 317,
+                      child: TextFormField(
+                        maxLines: null,
+                       // expands: true,
+                        controller: widget.contentTextController,
+                        keyboardType: TextInputType.multiline,
+                        decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            filled: true,
+                            hintText: '오늘의 명상을 기록하세요',
+                            hintStyle: TextStyle(
+                              color: Color(0xffBFBFBD),
+                            ),
+                            border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(vertical: 150)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),*/
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

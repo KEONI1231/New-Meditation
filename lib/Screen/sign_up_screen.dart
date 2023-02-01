@@ -200,7 +200,8 @@ class _SignUpState extends State<SignUp> {
         'today_medi_ok' : 0,
         'total_medi_ok' : 0,
         'last_post_time' : '',
-        'record_list' : ['default']
+        'record_list' : ['default'],
+        'friend_list' : ['']
       });
 
 
