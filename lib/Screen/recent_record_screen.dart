@@ -101,15 +101,21 @@ class _RecentRecordListState extends State<RecentRecordList> {
                                             '${snapshot.data?.docs[index]['minute'].toString().padLeft(2, '0')} : '
                                             '${snapshot.data?.docs[index]['second'].toString().padLeft(2, '0')}'),
                                       ],
-                                    )
+                                    ),
+
                                   ],
                                 ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 12.0, left: 12),
+                                child: snapshot.data?.docs[index]['friend_open'] == true ? Text('[ 공개 ]') : Text('[ 비공개] '),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(12.0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+
                                     Text(
                                       snapshot.data?.docs[index]['emotion'],
                                       style: ts.copyWith(

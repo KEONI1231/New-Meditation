@@ -24,6 +24,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _studentNumberController =
   TextEditingController();
   final TextEditingController _nameTextController = TextEditingController();
+  bool donggukCheck = false;
   final String date = DateTime.now().year.toString() +
       '년 ' +
       DateTime.now().month.toString().padLeft(2, '0') +
@@ -32,6 +33,7 @@ class _SignUpState extends State<SignUp> {
       '일';
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -63,10 +65,23 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: 32,
                   ),
-                  CustomTextFieldSignUp(
-                      textInputType: TextInputType.number,
-                      Controller: _studentNumberController,
-                      label: "학번을 입력해주세요.(동국대학교 학생 한정)"),
+                /*  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      CustomTextFieldSignUp(
+                          textInputType: TextInputType.number,
+                          Controller: _studentNumberController,
+                          label: "학번을 입력해주세요.(동국대학교 학생 한정)"),
+                      Switch(
+                        value: donggukCheck,
+                        onChanged: (value)  {
+                          setState(() {
+                            donggukCheck = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),*/
                   CustomButtonSignUp(
                       text: '학번 중복확인', onPressed: check_stnumber),
                   SizedBox(
@@ -181,7 +196,7 @@ class _SignUpState extends State<SignUp> {
       await firestore.collection('users').doc(_emailTextController.text).set({
         'name': _nameTextController.text.replaceAll(RegExp('\\s'), ""),
         'email': _emailTextController.text.replaceAll(RegExp('\\s'), ""),
-        'student_number': _studentNumberController.text.replaceAll(RegExp('\\s'), ""),
+     //   'student_number': _studentNumberController.text.replaceAll(RegExp('\\s'), ""),
         'is_admin': 0,
         'pw': _pwTextController.text.replaceAll(RegExp('\\s'), ""),
         'created_time': DateTime.now().toString(),

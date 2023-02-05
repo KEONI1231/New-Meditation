@@ -9,7 +9,7 @@ class loginUser {
   String pw;
   String name;
   String createdTime;
-  String studentNumber;
+  //String studentNumber;
   int boolAdmin;
   int week_hour;
   int week_minute;
@@ -32,7 +32,7 @@ class loginUser {
     this.pw,
     this.boolAdmin,
     this.createdTime,
-    this.studentNumber,
+    //this.studentNumber,
     this.week_hour,
     this.week_minute,
     this.week_second,
@@ -54,8 +54,8 @@ class loginUser {
         email = (snapshot.value! as Map<String, dynamic>)['email'],
         pw = (snapshot.value! as Map<String, dynamic>)['pw'],
         name = (snapshot.value! as Map<String, dynamic>)['name'],
-        studentNumber =
-            (snapshot.value! as Map<String, dynamic>)['student_number'],
+       // studentNumber =
+       //     (snapshot.value! as Map<String, dynamic>)['student_number'],
         boolAdmin = (snapshot.value! as Map<List<int>, dynamic>)['boolAdmin'],
         createdTime =
             (snapshot.value! as Map<List<String>, dynamic>)['createTime'],
@@ -90,7 +90,7 @@ class loginUser {
       'name': name,
       'PW': pw,
       'email': email,
-      'studentNumber': studentNumber,
+     // 'studentNumber': studentNumber,
       'boolAdmin': boolAdmin,
       'createdTime': createdTime,
       'week_hour': week_hour,

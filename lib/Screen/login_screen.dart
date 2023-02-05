@@ -155,7 +155,7 @@ class _LoginPartState extends State<LoginPart> {
     int today_medi_ok;
     int total_medi_ok;
     String createdTime;
-    String student_number;
+ //   String student_number;
     String lastPostTime;
     DocumentSnapshot userData;
     try {
@@ -177,7 +177,7 @@ class _LoginPartState extends State<LoginPart> {
           } catch (e) {}
         }
         name = userData['name'];
-        student_number = userData['student_number'];
+       // student_number = userData['student_number'];
         boolAdmin = userData['is_admin'];
         createdTime = userData['created_time'];
         week_hour = userData['week_hour'];
@@ -279,7 +279,7 @@ class _LoginPartState extends State<LoginPart> {
             pw,
             boolAdmin,
             createdTime,
-            student_number,
+         //   student_number,
             week_hour,
             week_minute,
             week_second,
@@ -304,8 +304,8 @@ class _LoginPartState extends State<LoginPart> {
             " " +
             user.createdTime +
             " " +
-            user.studentNumber +
-            " " +
+       //     user.studentNumber +
+      //      " " +
             user.week_hour.toString() +
             " " +
             user.week_minute.toString() +

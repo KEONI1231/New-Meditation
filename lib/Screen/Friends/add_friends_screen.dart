@@ -85,12 +85,10 @@ class _FriendScreenState extends State<FriendScreen> {
         dynamic recordDateToSet;
         recordDate.add(widget.user.email);
         recordDateToSet = recordDate.toSet().toList();
-        firestore.collection('users').doc(emailTextConroller.text).update({
+        await firestore.collection('users').doc(emailTextConroller.text).update({
           'friend_list' : recordDateToSet
         });
-        firestore.collection('users').doc(emailTextConroller.text).update({
 
-        });
         Navigator.pop(context);
         DialogShow(context, '친구 추가가 완료되었습니다.');
       } else {

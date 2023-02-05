@@ -11,8 +11,9 @@ class CustomTextFieldSignUp extends StatelessWidget {
 
   //각 텍스트 필드들의 조건을 확인하기 위한 변수. 이 변수를 이용해서 validator에 의한 에러메시지를 출력해주는 판단 지표역할.
   final TextInputType textInputType;
-
+  final bool? donggukCheck;
   const CustomTextFieldSignUp({
+    this.donggukCheck,
     this.passwordChecker,
     required this.textInputType,
     required this.Controller,
@@ -69,6 +70,7 @@ class CustomTextFieldSignUp extends StatelessWidget {
             return null;
           }
         }
+
         /* 텍스트인풋 타입이 visiblePassword일때 signup_screen.dart에서
           passwordChecker: _pwTextController.text, 이 문장을 사용하였음.
           이 파일 8번째 줄에 final String? passwordChecker; 라는 문장이 있는데
@@ -96,6 +98,7 @@ class CustomTextFieldSignUp extends StatelessWidget {
           textInputType == TextInputType.visiblePassword ? true : false,
       decoration: _decoration,
       keyboardType: textInputType,
+
     );
   }
 }

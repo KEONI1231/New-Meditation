@@ -202,7 +202,7 @@ class _MyAppState extends State<MyApp> {
                               pw,
                               boolAdmin,
                               createdTime,
-                              student_number,
+                     //         student_number,
                               week_hour,
                               week_minute,
                               week_second,
@@ -227,7 +227,7 @@ class _MyAppState extends State<MyApp> {
                               " " +
                               user.createdTime +
                               " " +
-                              user.studentNumber +
+                        //      user.studentNumber +
                               " " +
                               user.week_hour.toString() +
                               " " +

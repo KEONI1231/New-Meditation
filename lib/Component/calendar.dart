@@ -42,11 +42,8 @@ class _CalendarState extends State<Calendar> {
           }
           List recordDate =
               List<String>.from(snapshot.data?.docs[0]['record_list'] ?? []);
-          // print(snapshot.data?.docs[0]['record_list']);
-          // print(recordDate.length);
-          // print(recordDate);
-          // print(recordDate[0].runtimeType);\
-          print("text${recordDate.length}");
+          print('길이');
+          print(recordDate.length);
           if (recordDate.length != 1) {
             for (int i = 0; i < recordDate.length; i++) {
               if (!recordDate[i].contains('default')) {
@@ -54,15 +51,15 @@ class _CalendarState extends State<Calendar> {
 
                 data = (recordDate[i].replaceAll(RegExp('[^0-9]'), ""));
                 //castRecordDate[i].add(recordDate[i].replaceAll(RegExp('[^0-9]'), ""));
-                print("sss" + data);
 
-                Year.add(data.substring(0, 4));
+//                Year.add(data.substring(0, 4));/
 
-                Month.add(data.substring(4, 6));
-                Day.add(data.substring(6, 8));
-                //  print(int.parse(Year[i]));
-                // print(int.parse(Month[i]));
-                // print(int.parse(day[i]));
+                //Month.add(data.substring(4, 6));
+                //Day.add(data.substring(6, 8));
+
+
+                Year.add( data.substring(0,4) + data.substring(4,6) + data.substring(6,8));
+                //print(Year[i]);
               }
               //print();
               // print('길이' + recordDate.length.toString());
@@ -78,15 +75,18 @@ class _CalendarState extends State<Calendar> {
                 //DateTime _date = DateTime.utc(date.year, date.month, date.day);
 
                 //print("asd" + _events[DateTime.utc(date.year, date.month, date.day)].toString());
-                if (Year.contains(_day.year.toString()) &&
-                    Month.contains(_day.month.toString().padLeft(2, '0')) &&
-                    Day.contains(_day.day.toString().padLeft(2, '0'))) {
+               /* if (Year.contains(_day.year.toString()) == true &&
+                    Month.contains(_day.month.toString().padLeft(2, '0')) == true &&
+                    Day.contains(_day.day.toString().padLeft(2, '0')) == true) {*/
+            if(Year.contains(_day.year.toString() + _day.month.toString().padLeft(2,'0') + _day.day.toString().padLeft(2, '0'))) {
                   return Container(
                     width: 35,
                     decoration: BoxDecoration(
                         color: Colors.blue.withOpacity(0.2),
                         shape: BoxShape.circle),
+
                   );
+
                 }
               }),
               locale: 'ko_KR',
