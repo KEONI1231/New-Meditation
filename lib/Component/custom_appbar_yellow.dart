@@ -18,6 +18,7 @@ class CustomAppBarYellow extends StatelessWidget {
               color: BRIGHT_COLOR)),
       centerTitle: true,
       backgroundColor: PRIMARY_COLOR,
+      automaticallyImplyLeading: titleText == '설정' ? false : true
     );
   }
 }

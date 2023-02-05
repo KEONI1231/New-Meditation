@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:medi/Screen/sign_up_screen.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Component/account_textfield.dart';
 import '../Component/alert_dialog.dart';
 import '../Component/circular_progress_indicator_dialog.dart';

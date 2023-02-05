@@ -48,7 +48,7 @@ class _SendMailState extends State<SendMail> {
                   decoration: widget.ContainerDecoration,
                   child: Center(
                     child: Text(
-                      '받는 사람 : 고등어 개발팀 (High-Connect)',
+                      '받는 사람 : kh991231@naver.com',
                       style: ts,
                     ),
                   ),

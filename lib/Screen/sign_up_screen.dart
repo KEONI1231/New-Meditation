@@ -82,8 +82,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                     ],
                   ),*/
-                  CustomButtonSignUp(
-                      text: '학번 중복확인', onPressed: check_stnumber),
+
                   SizedBox(
                     height: 8,
                   ),
@@ -106,8 +105,8 @@ class _SignUpState extends State<SignUp> {
 
   int _duplicationIdCheck = 0;
   int _duplbtnidchecker = 0;
-  int _duplicationNickCheck = 1;
-  int _duplbtnnickchecker = 0;
+//  int _duplicationNickCheck = 1;
+//  int _duplbtnnickchecker = 0;
 
   void check_email() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -127,6 +126,7 @@ class _SignUpState extends State<SignUp> {
       _duplbtnidchecker = 1;
     }
   }
+/*
 
   void check_stnumber() async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -157,6 +157,7 @@ class _SignUpState extends State<SignUp> {
       DialogShow(context, '에러발생');
     }
   }
+*/
 
   /* DocumentSnapshot userData;
     try {
@@ -175,9 +176,11 @@ class _SignUpState extends State<SignUp> {
     }*/
   void try_singup() {
     if (_duplicationIdCheck == 1 &&
-        _duplbtnidchecker == 1 &&
-        _duplicationNickCheck == 1 &&
-        _duplbtnnickchecker == 1) {
+        _duplbtnidchecker == 1 
+   //     _duplicationNickCheck == 1 &&
+    //    _duplbtnnickchecker == 1
+        //
+        ) {
       createAccount();
     } else {
       DialogShow(context, '중복체크를 진행해주세요.');

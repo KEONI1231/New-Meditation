@@ -27,7 +27,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
       DateTime.now().day.toString().padLeft(2, '0') +
       '일';
   dynamic friendsData = '';
-
+  dynamic friendName = '';
   @override
   Widget build(BuildContext context) {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -49,6 +49,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
                   return CircularProgressIndicator(color: TEXT_COLOR);
                 }
                 friendsData = snapshot.data?.docs[0]['friend_list'];
+                friendName = snapshot.data?.docs[0]['name'];
                 return Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -86,6 +87,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             FriendRecentRecord(
+                                                              targetName: friendName,
                                                                 targetEmail:
                                                                     friendsData[
                                                                         index],

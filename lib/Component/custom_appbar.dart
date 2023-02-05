@@ -15,6 +15,9 @@ class CustomAppBar extends StatelessWidget {
       ),
       backgroundColor: BRIGHT_COLOR,
       centerTitle: true,
+      iconTheme: IconThemeData(
+        color: Colors.grey
+      ),
     );
   }
 }

@@ -7,9 +7,11 @@ import '../../Constant/color.dart';
 
 class FriendRecentRecord extends StatefulWidget {
   final String targetEmail;
+  final String targetName;
   final loginUser user;
 
   const FriendRecentRecord({
+    required this.targetName,
     required this.targetEmail,
     required this.user,
     Key? key,
@@ -20,6 +22,7 @@ class FriendRecentRecord extends StatefulWidget {
 }
 
 class _FriendRecentRecordState extends State<FriendRecentRecord> {
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   final ts =
       TextStyle(fontWeight: FontWeight.w700, fontSize: 24, color: TEXT_COLOR);
@@ -40,6 +43,7 @@ class _FriendRecentRecordState extends State<FriendRecentRecord> {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -52,11 +56,16 @@ class _FriendRecentRecordState extends State<FriendRecentRecord> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(8, 16, 0, 16),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 16),
-                    Text(
+                    Text( '이메일 : '+
                       widget.targetEmail,
+                      style: ts1,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text( '이름 : '+
+                        widget.targetName,
                       style: ts1,
                       textAlign: TextAlign.center,
                     ),
@@ -110,6 +119,7 @@ class _FriendRecentRecordState extends State<FriendRecentRecord> {
                                               '${snapshot.data?.docs[index]['year'].toString().padLeft(2, '0')}년 '
                                               '${snapshot.data?.docs[index]['month'].toString().padLeft(2, '0')}월 '
                                               '${snapshot.data?.docs[index]['day'].toString().padLeft(2, '0')}일'),
+
                                           Row(
                                             children: [
                                               Icon(

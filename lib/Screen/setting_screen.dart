@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medi/Component/alert_dialog.dart';
+import 'package:medi/Component/custom_appbar_yellow.dart';
 import 'package:medi/Screen/Friends/add_friends_screen.dart';
 import 'package:medi/Screen/Friends/friend_list_screen.dart';
 import 'package:medi/Screen/change_password.dart';
@@ -47,20 +49,29 @@ class _SettingScreenState extends State<SettingScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              AppBar(
-                  title: Text('설정',
-                      style: ts.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 24,
-                          color: BRIGHT_COLOR)),
-                  centerTitle: true,
-                  backgroundColor: PRIMARY_COLOR),
+              CustomAppBarYellow(titleText: '설정'),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 32),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text('내 기본정보',
+                          style: ts.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                              color: Colors.grey[700])),
+                    ),
+                    SizedBox(height: 16),
+                    ProfileContainer(
+                        user: widget.user,
+                        ContainerDecoration: ContainerDecoration,
+                        ts: ts),
+                    SizedBox(height: 48),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text('설정',
@@ -89,22 +100,91 @@ class _SettingScreenState extends State<SettingScreen> {
                     SizedBox(height: 56),
                     Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text('공개 대상',
-                            style: ts.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                color: Colors.grey[700]))),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('공개 대상',
+                                style: ts.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20,
+                                    color: Colors.grey[700])),
+                            GestureDetector(
+                              onTap: () {
+                                DialogShow(context,
+                                    '공개 대상을 추가하면, 공개로 설정된 나의 명상 일기를 공개 대상이 열람할 수 있습니다.');
+                              },
+                              child: Icon(
+                                Icons.help_outline,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ],
+                        )),
                     SizedBox(height: 16),
                     ThirdContainer(
                         user: widget.user,
                         ts: ts,
                         ContainerDecoration: ContainerDecoration),
-                    SizedBox(height: 32,)
+                    SizedBox(
+                      height: 32,
+                    )
                   ],
                 ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileContainer extends StatefulWidget {
+  final loginUser user;
+  final TextStyle ts;
+  final BoxDecoration ContainerDecoration;
+
+  const ProfileContainer(
+      {required this.user,
+      required this.ContainerDecoration,
+      required this.ts,
+      Key? key})
+      : super(key: key);
+
+  @override
+  State<ProfileContainer> createState() => _ProfileContainerState();
+}
+
+class _ProfileContainerState extends State<ProfileContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 1.1,
+      decoration: widget.ContainerDecoration,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 16, 0, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            Text(
+              '이름 : ' + widget.user.name,
+                style: widget.ts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Colors.grey[700])
+            ),
+            const SizedBox(height: 24),
+            Text(
+              '이메일 : ' + widget.user.email,
+                style: widget.ts.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Colors.grey[700])
+            ),
+
+            const SizedBox(height: 24),
+          ],
         ),
       ),
     );
@@ -369,7 +449,9 @@ class _ThirdContainerState extends State<ThirdContainer> {
               onTap: () {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (BuildContext context) {
-                  return FriendScreen(user: widget.user,);
+                  return FriendScreen(
+                    user: widget.user,
+                  );
                 }));
               },
               child: Text(
@@ -390,7 +472,6 @@ class _ThirdContainerState extends State<ThirdContainer> {
                 style: widget.ts,
               ),
             ),
-
             const SizedBox(height: 24),
           ],
         ),

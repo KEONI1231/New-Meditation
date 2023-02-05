@@ -56,6 +56,22 @@ class _DiaryScreenState extends State<DiaryScreen> {
                 emotionTextController: _emotionTextController,
                 contentTextController: _contentTextController,
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text('공개 여부'),
+                  Switch(
+                    value: friendOpen,
+                    onChanged: (value) {
+                      setState(() {
+                        friendOpen = value;
+                        print(friendOpen);
+                      });
+                    },
+                  ),
+                ],
+              ),
+
               SizedBox(
                 height: 30,
               ),
@@ -125,6 +141,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
       widget.user.month_hour += 1;
     }
     print('test');
+    print(friendOpen);
     await firestore.collection("users").doc(widget.user.email).update({
       'total_medi_ok': FieldValue.increment(1),
       'today_medi_ok': FieldValue.increment(1),
@@ -271,21 +288,6 @@ class _DiaryCardState extends State<DiaryCard> {
                         //  decoration: _decoration,
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text('공개 여부'),
-                      Switch(
-                        value: widget.friendOpen,
-                        onChanged: (value) {
-                          setState(() {
-                            widget.friendOpen = value;
-                            print(widget.friendOpen);
-                          });
-                        },
-                      ),
-                    ],
                   ),
 
                   /* Padding(
