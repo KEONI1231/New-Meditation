@@ -292,7 +292,7 @@ class _LoginPartState extends State<LoginPart> {
             this_month,
             this_week,
             this_today);
-        print(user.email +
+        /*print(user.email +
             " " +
             user.name +
             " " +
@@ -316,7 +316,7 @@ class _LoginPartState extends State<LoginPart> {
             " " +
             user.month_second.toString() +
             "" +
-            user.today_medi_ok.toString());
+            user.today_medi_ok.toString());*/
         Navigator.pop(context);
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {
@@ -327,7 +327,7 @@ class _LoginPartState extends State<LoginPart> {
         DialogShow(context, '시스템 에러.');
       }
     } catch (e) {
-      print(e);
+      //print(e);
       Navigator.pop(context);
       DialogShow(context, '회원정보가 잘못되었습니다.');
     }

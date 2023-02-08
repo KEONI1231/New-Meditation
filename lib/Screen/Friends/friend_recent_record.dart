@@ -86,8 +86,8 @@ class _FriendRecentRecordState extends State<FriendRecentRecord> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator(color: TEXT_COLOR);
                 }
-                print('test');
-                print(snapshot.data?.docs.length);
+                //print('test');
+                //print(snapshot.data?.docs.length);
                 return Expanded(
                   child: ListView.builder(
                     scrollDirection: Axis.vertical,

@@ -77,7 +77,7 @@ class _FriendScreenState extends State<FriendScreen> {
 
       Navigator.pop(context);
       if (emailChecker == emailTextConroller.text && emailTextConroller.text.length != 0) {
-        print('test1');
+        //print('test1');
 
         //여기에 추가
         Doc = await firestore.collection('users').doc(emailTextConroller.text).get();
@@ -97,7 +97,7 @@ class _FriendScreenState extends State<FriendScreen> {
     } catch (e) {
       Navigator.pop(context);
       DialogShow(context, '에러발생');
-      print(e);
+      //print(e);
     }
   }
 }

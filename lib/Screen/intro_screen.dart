@@ -50,12 +50,14 @@ class _MyAppState extends State<MyApp> {
                     stateid = sp.getString(userId)!;
                     statepw = sp.getString(userPassword)!;
                     login = sp.getBool(loginState)!;
-
+                    /*
                     print("=========================");
                     print(stateid);
                     print(statepw);
                     print(login);
                     print("=========================");
+
+                     */
                     if(login == true) {
                       FirebaseFirestore firestore = FirebaseFirestore.instance;
                       final String date = DateTime.now().year.toString() +
@@ -217,7 +219,7 @@ class _MyAppState extends State<MyApp> {
                               this_month,
                               this_week,
                               this_today);
-                          print(user.email +
+                          /*print(user.email +
                               " " +
                               user.name +
                               " " +
@@ -241,7 +243,7 @@ class _MyAppState extends State<MyApp> {
                               " " +
                               user.month_second.toString() +
                               "" +
-                              user.today_medi_ok.toString());
+                              user.today_medi_ok.toString());*/
 
                           Navigator.pop(context);
                           Navigator.of(context)
@@ -253,7 +255,7 @@ class _MyAppState extends State<MyApp> {
                           DialogShow(context, '시스템 에러.');
                         }
                       } catch (e) {
-                        print(e);
+                        //print(e);
                         Navigator.pop(context);
                         DialogShow(context, '회원정보가 잘못되었습니다.');
                       }

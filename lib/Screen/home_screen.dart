@@ -20,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    print(DateTime.now().weekday);
+    //print(DateTime.now().weekday);
     final ts =
         TextStyle(fontWeight: FontWeight.w700, fontSize: 24, color: TEXT_COLOR);
     FirebaseFirestore firestore = FirebaseFirestore.instance;

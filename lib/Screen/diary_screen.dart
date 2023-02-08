@@ -39,9 +39,9 @@ class _DiaryScreenState extends State<DiaryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.hour);
-    print(widget.minute);
-    print(widget.second);
+    //print(widget.hour);
+    //print(widget.minute);
+    //print(widget.second);
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -65,7 +65,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
                     onChanged: (value) {
                       setState(() {
                         friendOpen = value;
-                        print(friendOpen);
+                        //print(friendOpen);
                       });
                     },
                   ),
@@ -92,7 +92,7 @@ class _DiaryScreenState extends State<DiaryScreen> {
     recordDate.add(date);
     recordDateToSet = recordDate.toSet().toList();
     CustomCircular(context, '기록 중...');
-    print(DateTime.now().toString().substring(0, 11));
+    //print(DateTime.now().toString().substring(0, 11));
     await firestore
         .collection("users")
         .doc(widget.user.email)
@@ -140,8 +140,8 @@ class _DiaryScreenState extends State<DiaryScreen> {
       widget.user.month_minute -= 60;
       widget.user.month_hour += 1;
     }
-    print('test');
-    print(friendOpen);
+    //print('test');
+    //print(friendOpen);
     await firestore.collection("users").doc(widget.user.email).update({
       'total_medi_ok': FieldValue.increment(1),
       'today_medi_ok': FieldValue.increment(1),

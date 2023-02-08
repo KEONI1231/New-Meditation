@@ -152,7 +152,7 @@ class _FriendListScreenState extends State<FriendListScreen> {
           actions: [
             TextButton(
               onPressed: () async {
-                print(index);
+                //print(index);
                 DocumentSnapshot Doc;
                 Doc = await firestore
                     .collection('users')

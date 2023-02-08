@@ -42,8 +42,8 @@ class _CalendarState extends State<Calendar> {
           }
           List recordDate =
               List<String>.from(snapshot.data?.docs[0]['record_list'] ?? []);
-          print('길이');
-          print(recordDate.length);
+          //print('길이');
+          //print(recordDate.length);
           if (recordDate.length != 1) {
             for (int i = 0; i < recordDate.length; i++) {
               if (!recordDate[i].contains('default')) {
